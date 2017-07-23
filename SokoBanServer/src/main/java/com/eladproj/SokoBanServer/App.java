@@ -15,12 +15,16 @@ import ORM.LevelSolution;
 import model.data.Level;
 
 /**
- * Hello world!
+ * solution services class. add, and get solution from Apache HTTP DB server
  *
  */
 public class App 
 {
-	
+	/**
+	 * get a solution from the Apache HTTP DB server.
+	 * @param levelData
+	 * @return Solution
+	 */
 	public static String getSolution(String levelData) {
 		String url = "http://localhost:8080/SokoBanJerseyWeb/webapi/request/getsolution";
 		Client client = ClientBuilder.newClient();
@@ -37,6 +41,10 @@ public class App
 		return null;
 	}
 
+	/**
+	 * Add a solution to the Apache HTTP DB server.
+	 * @param solution
+	 */
 	public static void addSolution(LevelSolution solution) {
 		String url = "http://localhost:8080/SokoBanJerseyWeb/webapi/request/addsolution";
 		Client client = ClientBuilder.newClient();
@@ -54,6 +62,11 @@ public class App
 		}
 	}
 	
+	/**
+	 * <p>Represent level as a one dimension string </p>
+	 * @param lvl
+	 * @return one dimension level string
+	 */
 	public static String levelAsOneString(Level lvl){
 		ArrayList<String> list = lvl.getLevelByArrayListOfStrings();
 		StringBuilder str = new StringBuilder();

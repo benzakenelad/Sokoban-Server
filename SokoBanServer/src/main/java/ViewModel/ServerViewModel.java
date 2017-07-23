@@ -7,9 +7,15 @@ import javafx.collections.ObservableList;
 import model.Model;
 import model.server.ClientInformation;
 
+/**
+ * Server view Model - part of MVVM architecture
+ * @author Elad Ben Zaken
+ * <p> responsible for Table View data update, and directing of client to model facade. </p>
+ */
 public class ServerViewModel extends Observable implements ViewModel,Observer{
 	
 	private ObservableList<ClientInformation> bindedData;
+	
 	private Model model;
 	
 	public ServerViewModel(Model model) {
@@ -32,6 +38,7 @@ public class ServerViewModel extends Observable implements ViewModel,Observer{
 		if(arg0 == model){
 			new Thread(()->{bindedData.clear();bindedData.addAll(model.getClientsList());}).start();
 		}
+		
 		
 	}
 

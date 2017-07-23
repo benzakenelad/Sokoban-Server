@@ -32,7 +32,8 @@ import solver.SolveSokobanLevel;
  */
 public class SokobanClientHandler extends Observable implements ClientHandler {
 
-	static final int times = 10;
+	static final int solvingTimes = 50; // 50*50
+	static final boolean workWithDB = true;
 	private ExecutorService executor = Executors.newCachedThreadPool();
 	private SolveSokobanLevel solver = new SolveSokobanLevel();
 	private ClientInformation clientInfo;
@@ -58,11 +59,14 @@ public class SokobanClientHandler extends Observable implements ClientHandler {
 		Thread.sleep(50);
 
 		String solution = null;
+		String levelData = null;
 
 		// checking if solved already
-		String levelData = App.levelAsOneString(lvl);
-		try{solution = App.getSolution(levelData);}catch(Exception e){}
-	
+		if(workWithDB){
+			levelData = App.levelAsOneString(lvl);
+			try{solution = App.getSolution(levelData);}catch(Exception e){}
+		}
+		
 		if (solution == null) {
 			switch (command) {
 			case "quick solving":
@@ -76,7 +80,8 @@ public class SokobanClientHandler extends Observable implements ClientHandler {
 			default:
 				break;
 			}
-			try{saveSolutionInDB(levelData, solution);}catch(Exception e){}	
+			if(workWithDB)
+				try{saveSolutionInDB(levelData, solution);}catch(Exception e){}	
 		}else
 			writeToClient.println(solution);
 		
@@ -94,7 +99,7 @@ public class SokobanClientHandler extends Observable implements ClientHandler {
 		if (lvl == null)
 			return null;
 
-		final List<Action> actions = MultiThreadedSolver(lvl, 50, 50);
+		final List<Action> actions = MultiThreadedSolver(lvl, solvingTimes, solvingTimes);
 
 		if (actions == null) {
 			System.out.println("Could not solve the level.");

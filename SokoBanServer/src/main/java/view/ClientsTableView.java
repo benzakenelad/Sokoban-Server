@@ -19,6 +19,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import model.server.ClientInformation;
 
+/**
+ * <p> Admin management table view - part of MVVM architecture </p>
+ * @author Elad Ben Zaken
+ * 
+ */
+
 public class ClientsTableView implements View,Initializable{
 
 	// Data Members
